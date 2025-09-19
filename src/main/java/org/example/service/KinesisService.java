@@ -23,7 +23,6 @@ import software.amazon.awssdk.services.kinesis.model.Record;
 import software.amazon.awssdk.services.kinesis.model.ResourceNotFoundException;
 import software.amazon.awssdk.services.kinesis.model.ShardIteratorType;
 
-import javax.annotation.PostConstruct;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -95,12 +94,6 @@ public class KinesisService {
             logger.error("Error reading messages from Kinesis stream", e);
             throw new RuntimeException("Failed to read messages", e);
         }
-    }
-
-    public void deleteSteam() {
-        kinesisClient.deleteStream(DeleteStreamRequest.builder()
-                .streamName(streamName)
-                .build());
     }
 
     public void deleteStream() {
