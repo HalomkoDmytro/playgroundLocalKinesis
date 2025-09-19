@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: kinesis-localstack-demo
+
+aws:
+  region: us-east-1
+  kinesis:
+    endpoint: http://localhost:4566
+    stream-name: test-stream
+  credentials:
+    access-key: test
+    secret-key: test
+
+logging:
+  level:
+    com.example: DEBUG
+    software.amazon.awssdk: DEBUG
