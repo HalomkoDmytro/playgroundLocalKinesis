@@ -1,0 +1,203 @@
+{
+	"info": {
+		"_postman_id": "c21bd229-b75e-46f8-a9c7-47b83bde8a65",
+		"name": "Local Kinesis Test",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "4699573"
+	},
+	"item": [
+		{
+			"name": "localstack healcheck",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:4566/_localstack/health",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4566",
+					"path": [
+						"_localstack",
+						"health"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Send a Message",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.variables.set(\"now\", \"\" + new Date().toISOString() + \"\");"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"message\": \"Hello Kinesis!\",\r\n    \"userId\": \"user123\",\r\n    \"timestamp\": {{now}}\r\n  }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/kinesis/send?partitionKey=user1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"kinesis",
+						"send"
+					],
+					"query": [
+						{
+							"key": "partitionKey",
+							"value": "user1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Send Message Asynchronously",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.variables.set(\"now\", new Date().toISOString());\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"event\": \"user_login\",\r\n    \"userId\": \"user456\",\r\n    \"timestamp\": \"{{now}}\"\r\n  }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/kinesis/send-async?partitionKey=user2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"kinesis",
+						"send-async"
+					],
+					"query": [
+						{
+							"key": "partitionKey",
+							"value": "user2"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Read from the beginning of the stream",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/kinesis/read?shardIteratorType=TRIM_HORIZON",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"kinesis",
+						"read"
+					],
+					"query": [
+						{
+							"key": "shardIteratorType",
+							"value": "TRIM_HORIZON"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Read only new messages",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/kinesis/read?shardIteratorType=LATEST",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"kinesis",
+						"read"
+					],
+					"query": [
+						{
+							"key": "shardIteratorType",
+							"value": "LATEST"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

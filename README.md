@@ -15,6 +15,8 @@ REST API endpoints for interacting with the Kinesis service.
 * To remove all LocalStack data:
 ```docker-compose down -v```
 
+### 2. Use prepared POSTMAN command 
+Postman json command stored in resources/postman/Local Kinesis Test.postman_collection.json
 
 
 
